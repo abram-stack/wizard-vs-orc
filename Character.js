@@ -1,16 +1,13 @@
 import { getPlaceholderHtml, getDiceScore, getPercentage} from './utils.js'
 
-function Character(data) { 
-  this.name = data.name;
-  this.avatar = data.avatar;
-  this.health = data.health;
-  this.diceCount = data.diceCount;
-  this.currentDiceScore = data.currentDiceScore;
-  this.maxHealth = data.health;
+class Character{
+  constructor(data) {
+    Object.assign(this, data)
+    this.maxHealth = data.health;
+    this.diceHtml = getPlaceholderHtml(this.diceCount);
+  }
 
-  this.diceHtml = getPlaceholderHtml(this.diceCount);
-
-  this.setDiceHtml = function () {
+  setDiceHtml() {
     // we call function, and assign the value return to variable
     this.currentDiceScore = getDiceScore(this.diceCount)
     // we want to change the placeholder into dice with score inside
@@ -19,7 +16,7 @@ function Character(data) {
     }).join("")
   }
   
-  this.takeDamage = function (attackArray) {
+  takeDamage(attackArray) {
     const totalAttackScore= attackArray.reduce(function (total, current) {
       return total + current
     })
@@ -31,7 +28,7 @@ function Character(data) {
     }
   }
 
-  this.getHealthBarHtml = function () {
+  getHealthBarHtml(){
     const percent = getPercentage(this.health, this.maxHealth)
     // if percent lower than 25% add class danger to health-bar-inner
       return `<div class="health-bar-outer">
@@ -41,7 +38,7 @@ function Character(data) {
             </div>`
   }
 
-  this.getCharHtml = function () {
+  getCharHtml() {
     const healthBar = this.getHealthBarHtml()
 
     return `<div class="character-card">
