@@ -1,34 +1,60 @@
 import Character from './Character.js'
 import characterData from './data.js'
 
+let monstersArray = ['orc', 'demon', 'goblin']
+
+const getNewMonster = () => {
+    // characterData['orc']
+    const nextMonsterTarget = characterData[monstersArray.shift()];
+    return nextMonsterTarget ? new Character(nextMonsterTarget) : {}
+}
+
 document.getElementById('attack-button').addEventListener('click', attack)
 
 function attack() {
     wizard.getDice()
-    orc.getDice()
+    monster.getDice()
 
-    wizard.takeDamage(orc.currentDiceScore)
-    orc.takeDamage(wizard.currentDiceScore)
+    wizard.takeDamage(monster.currentDiceScore)
+    monster.takeDamage(wizard.currentDiceScore)
     render()
 
-    if (wizard.dead || orc.dead) {
-        endGame()
+    if (wizard.dead) 
+        endGame()    
+    else if(monster.dead){
+        if (monstersArray.length > 0)
+            monster = getNewMonster()
+        else
+            endGame()
     }
 }
+
 function endGame() {
-    const endMessage = wizard.health === 0 && orc.health === 0 ?
-        'Both died bravely'
-        : wizard.health === 0 ? 'Orc ruleees'
-        : 'Orc has been banished'
-    console.log(endMessage);          
+    
+    if (monster)
+        console.log('not empty');
+    const endMessage = wizard.health === 0 && monster.health === 0 ?
+    'Both died bravely'
+    : wizard.health === 0 ? 'Darkness ruleees'
+    : 'Orc Uruk haay has been banished'
+
+    const endEmoji = wizard.health > 0 ? "🔮" : "☠️"
+    document.body.innerHTML = `
+        <div class="end-game">
+            <h2>Game Over</h2> 
+            <h3>${endMessage}</h3>
+            <p class="end-emoji">${endEmoji}</p>
+        </div>
+        `
+    
 }
 
 function render() { 
     document.getElementById('hero').innerHTML = wizard.getCharHtml()
-    document.getElementById('monster').innerHTML = orc.getCharHtml()
+    document.getElementById('monster').innerHTML = monster.getCharHtml()
 }
 
 const wizard = new Character(characterData.hero)
-const orc = new Character(characterData.monster)
+let monster = getNewMonster();
 
 render()

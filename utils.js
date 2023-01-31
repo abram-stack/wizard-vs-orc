@@ -19,5 +19,7 @@ function getDiceScore(diceCount) {
   })
 }
 
-
-export { getPlaceholderHtml, getDiceScore }
+const getPercentage = (remainHealth, maxHealth) => { 
+  return 100 * remainHealth / maxHealth; 
+}
+export { getPlaceholderHtml, getDiceScore, getPercentage }

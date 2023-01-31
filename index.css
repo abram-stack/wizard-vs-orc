@@ -29,7 +29,7 @@ main {
 }
 
 .character-card {
-    height: 30rem;
+    height: 50rem;
     margin-top: .5rem;
     width: 94vw;
     max-width: 230px;
@@ -48,7 +48,7 @@ main {
 @media(min-width:550px) {
     .character-card {
         border: 0.2rem solid #000721;
-        height: 30rem;
+        height: 40rem;
         width: 37vw;
     }
 }
