@@ -8,13 +8,13 @@ function Character(data) {
   this.currentDiceScore = data.currentDiceScore;
   this.maxHealth = data.health;
 
-  this.diceArray = getPlaceholderHtml(this.diceCount);
+  this.diceHtml = getPlaceholderHtml(this.diceCount);
 
-  this.getDice = function () {
+  this.setDiceHtml = function () {
     // we call function, and assign the value return to variable
     this.currentDiceScore = getDiceScore(this.diceCount)
     // we want to change the placeholder into dice with score inside
-    this.diceArray = this.currentDiceScore.map(function (dice) { 
+    this.diceHtml = this.currentDiceScore.map(function (dice) { 
       return `<div class="dice">${dice}</div>`
     }).join("")
   }
@@ -50,7 +50,7 @@ function Character(data) {
         <p class="health">health: <b> ${this.health}</b></p>
         ${healthBar}
         <div class="dice-container">
-          ${this.diceArray}
+          ${this.diceHtml}
         </div>
     </div>`
   }
